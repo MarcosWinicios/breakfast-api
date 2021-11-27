@@ -17,7 +17,14 @@ public interface ItemRepository  extends JpaRepository<Item, Long>{
 	@Query(value = "SELECT * FROM tb_item WHERE id = :id", nativeQuery = true)
 	public Optional<Item> searchById(Long id);
 	
-//	public Optional<Item> create(Item item);
-//	
+	@Query(value = "INSERT INTO tb_item (name, employee_id) VALUES (:item.getName(), :employeeId)", nativeQuery = true)
+	public Item create(Item item, Long employeeId);
+	
+	@Query(value = "SELECT * FROM tb_item WHERE name = :name", nativeQuery = true)
+	public Optional<Item> searchByName(String name);
+	
+	@Query(value = "SELECT * FROM tb_item WHERE name LIKE %:name%", nativeQuery = true)
+	public Page<Item> searchNameContaining(String name, Pageable pageable);
+
 //	public void removeById(Long id);
 }
