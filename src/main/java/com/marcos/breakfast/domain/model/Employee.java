@@ -1,5 +1,7 @@
 package com.marcos.breakfast.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -7,10 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Entity(name="employee")
+@Entity(name="tb_employee")
 public class Employee {
 	
 	@Id
@@ -26,6 +29,9 @@ public class Employee {
 	@Size(min=11, max=11)
 	@Column(name="cpf")
 	private String cpf;
+	
+	@OneToMany(mappedBy = "employee")
+	private List<Item> items = new ArrayList<>();
 	
 	public Employee() {}
 	

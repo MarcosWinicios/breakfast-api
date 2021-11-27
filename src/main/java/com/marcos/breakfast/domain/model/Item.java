@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
-@Entity(name="item")
+@Entity(name="tb_item")
 public class Item {
 	
 	@Id
@@ -19,6 +21,10 @@ public class Item {
 	@NotBlank
 	@Column(name = "name")
 	private String name;
+	
+	@ManyToOne
+	@JoinColumn(name = "employee_id")
+	private Employee employee;
 	
 	public Item() {}
 	
