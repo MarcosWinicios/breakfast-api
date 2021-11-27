@@ -28,12 +28,14 @@ public class EmployeeController {
 	
 	@GetMapping("/{employeeId}")
 	public ResponseEntity<Employee> findById(@PathVariable Long employeeId) {
-		Optional<Employee> result = employeeRepository.findById(employeeId);
-		if(result.isPresent()) {
-			
-			return ResponseEntity.ok(result.get());
-		}
-		return ResponseEntity.notFound().build();
+		return employeeRepository.findById(employeeId)
+				.map(employee -> ResponseEntity.ok(employee))
+				.orElse(ResponseEntity.notFound().build());
+		
+//		Optional<Employee> result = employeeRepository.findById(employeeId);
+//		if(result.isPresent()) {			
+//			return ResponseEntity.ok(result.get());
+//		}
+//		return ResponseEntity.notFound().build();
 	}
-	
 }
