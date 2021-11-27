@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity(name="employee")
 public class Employee {
@@ -15,9 +17,13 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
+	@Size(max=60)
 	@Column(name="name")
 	private String name;
 	
+	@NotBlank
+	@Size(min=11, max=11)
 	@Column(name="cpf")
 	private String cpf;
 	

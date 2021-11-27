@@ -1,5 +1,7 @@
 package com.marcos.breakfast.api.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,12 +49,12 @@ public class EmployeeController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Employee save(@RequestBody Employee employee) {
+	public Employee save(@Valid @RequestBody Employee employee) {
 		return employeeRepository.save(employee);
 	}
 	
 	@PutMapping("/{employeeId}")
-	public ResponseEntity<Employee> update(@PathVariable Long employeeId, @RequestBody Employee employee ) {
+	public ResponseEntity<Employee> update(@Valid @PathVariable Long employeeId, @RequestBody Employee employee ) {
 		if(!employeeRepository.existsById(employeeId)) {
 			return ResponseEntity.notFound().build();
 		}
@@ -69,7 +71,4 @@ public class EmployeeController {
 		employeeRepository.deleteById(employeeId);
 		return ResponseEntity.noContent().build();
 	}
-	
-	
-
 }
