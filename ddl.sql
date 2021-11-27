@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS tb_employee(
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(60) NOT NULL,
+  cpf VARCHAR(11) NOT NULL,
+  PRIMARY KEY(id),
+  UNIQUE KEY unique_cpf(cpf)
+);
+CREATE TABLE IF NOT EXISTS tb_item(
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(60) NOT NULL,
+  employee_id BIGINT NOT NULL,
+  PRIMARY KEY(id),
+  FOREIGN KEY (employee_id) REFERENCES tb_employee(id)
+);

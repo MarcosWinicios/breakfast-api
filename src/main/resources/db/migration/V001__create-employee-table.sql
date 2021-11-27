@@ -1,6 +1,7 @@
-CREATE TABLE employee(
-	id bigint not null auto_increment,
-	name varchar(60) not null,
-	cpf varchar(11) not null,
-	primary key(id)
+CREATE TABLE IF NOT EXISTS tb_employee(
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(60) NOT NULL,
+	cpf VARCHAR(11) NOT NULL,
+	PRIMARY KEY(id),
+    UNIQUE KEY unique_cpf(cpf)
 );
