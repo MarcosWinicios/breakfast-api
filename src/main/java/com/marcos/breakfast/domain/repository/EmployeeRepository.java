@@ -25,11 +25,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	@Query(value = "SELECT * FROM tb_employee WHERE id = :employeeId", nativeQuery = true)
 	public Optional<Employee> searchById(Long employeeId);
 	
-	@Query(value = "SELECT * FROM tb_employee WHERE cpf = :cpf")
+	@Query(value = "SELECT * FROM tb_employee WHERE cpf = :cpf", nativeQuery = true)
 	public Optional<Employee> searchByCpf(String cpf);
 	
-	@Query(value = "SELECT * FROM tb_employee WHERE name LIKE %:name%")
-	public Page<Employee> searchNameContaining (String name);
+	@Query(value = "SELECT * FROM tb_employee WHERE name LIKE %:name%", nativeQuery = true)
+	public Page<Employee> searchNameContaining (String name, Pageable pageable);
 	
 	@Query(value = "DELETE FROM tb_employee WHERE id = :employeeId", nativeQuery = true)
 	public void removeById(Long employeeId);
