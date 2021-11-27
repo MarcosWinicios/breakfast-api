@@ -24,7 +24,7 @@ public class RegistrationEmployeeService {
 			throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
 		}
 		
-		return employeeRepository.save(employee);
+		return employeeRepository.create(employee.getName(), employee.getCpf());
 	}
 	
 	@Transactional
