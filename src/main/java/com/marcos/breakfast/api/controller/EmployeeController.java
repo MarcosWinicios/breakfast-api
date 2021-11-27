@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
+import com.marcos.breakfast.domain.service.RegistrationEmployeeService;
 
 
 @RestController
@@ -27,6 +28,9 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private RegistrationEmployeeService employeeService;
 	
 	@GetMapping
 	public ResponseEntity<Page<Employee>> findAll(Pageable page) {
@@ -50,7 +54,7 @@ public class EmployeeController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Employee save(@Valid @RequestBody Employee employee) {
-		return employeeRepository.save(employee);
+		return employeeService.save(employee);
 	}
 	
 	@PutMapping("/{employeeId}")
@@ -59,7 +63,7 @@ public class EmployeeController {
 			return ResponseEntity.notFound().build();
 		}
 		employee.setId(employeeId);
-		employee = employeeRepository.save(employee);
+		employee = employeeService.save(employee);
 		return ResponseEntity.ok(employee);
 	}
 	
@@ -68,7 +72,7 @@ public class EmployeeController {
 		if(!employeeRepository.existsById(employeeId)) {
 			return ResponseEntity.notFound().build();
 		}
-		employeeRepository.deleteById(employeeId);
+		employeeService.remove(employeeId);
 		return ResponseEntity.noContent().build();
 	}
 }

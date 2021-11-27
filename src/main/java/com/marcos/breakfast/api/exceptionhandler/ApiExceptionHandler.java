@@ -1,6 +1,5 @@
 package com.marcos.breakfast.api.exceptionhandler;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

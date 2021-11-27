@@ -1,19 +1,19 @@
 package com.marcos.breakfast.api.exceptionhandler;
 
 public class Field {
-
-	private String name;
-	private String mesage;
 	
-	public Field(String name, String mesage) {
+	private String name;
+	private String message;
+	
+	public Field(String name, String message) {
 		this.name = name;
-		this.mesage = mesage;
+		this.message = message;
 	}
 	
 	public String getName() {
 		return name;
 	}
-	public String getMesage() {
-		return mesage;
+	public String getMessage() {
+		return message;
 	}	
 }
