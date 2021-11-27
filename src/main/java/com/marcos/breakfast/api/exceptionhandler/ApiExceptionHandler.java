@@ -14,8 +14,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 
 
 @ControllerAdvice
@@ -44,12 +47,25 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		problem.setFields(fields);
 		
 		/*
-		 * Parameters: ex the exception
-		 * body:  the body for the response
-		 * headers: the headers for the response
-		 * status: the response status
-		 * request: the current request
+		 * Parameters 
+		 * 		ex: the exception
+		 * 		body:  the body for the response
+		 * 		headers: the headers for the response
+		 * 		status: the response status
+		 * 		request: the current request
 		 */
 		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+	
+	@ExceptionHandler(BusinessExcepetion.class)
+	public ResponseEntity<Object> handleBusiness(BusinessExcepetion ex, WebRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		Problem problem = new Problem();
+		problem.setStatus(status.value());
+		problem.setDateHour(LocalDateTime.now());
+		problem.setTitle(ex.getMessage());
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 }
