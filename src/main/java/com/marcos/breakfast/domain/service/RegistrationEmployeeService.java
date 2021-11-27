@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
 
@@ -15,6 +16,14 @@ public class RegistrationEmployeeService {
 	
 	@Transactional
 	public  Employee save(Employee employee) {
+		
+		boolean existingCpf = employeeRepository.findByCpf(employee.getCpf())
+				.stream()
+				.anyMatch(existingEmployee -> !existingEmployee.equals(employee));
+		if(existingCpf) {
+			throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
+		}
+		
 		return employeeRepository.save(employee);
 	}
 	
