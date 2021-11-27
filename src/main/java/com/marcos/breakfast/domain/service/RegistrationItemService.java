@@ -54,4 +54,17 @@ public class RegistrationItemService {
 	public Page<Item> findByNameContaining(String name, Pageable pageable){
 		return itemRepository.searchNameContaining(name, pageable);
 	}
+	
+	@Transactional
+	public void remove(Long itemId) {
+		
+//		itemRepository.removeById(itemId);
+		try {
+			itemRepository.deleteById(itemId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+//			throw new BusinessExcepetion("Não foi possível excluir");
+		}
+		
+	}
 }

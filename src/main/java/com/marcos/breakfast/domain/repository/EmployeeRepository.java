@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.marcos.breakfast.domain.model.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+	
 	Optional<Employee> findByCpf(String cpf);
 	
 	@Query(value = "SELECT COUNT(1) FROM tb_employee WHERE id = :employeeId", nativeQuery = true)

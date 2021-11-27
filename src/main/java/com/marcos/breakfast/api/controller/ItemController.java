@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.breakfast.domain.model.Item;
+import com.marcos.breakfast.domain.repository.ItemRepository;
 import com.marcos.breakfast.domain.service.RegistrationItemService;
 
 
@@ -26,6 +28,9 @@ public class ItemController {
 	
 	@Autowired
 	private RegistrationItemService itemService;
+	
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	@GetMapping
 	public ResponseEntity<Page<Item>> findAll(Pageable pageable){
@@ -52,5 +57,14 @@ public class ItemController {
 	public ResponseEntity<Page<Item>> findByNameContaing(@PathVariable String name, Pageable pageable){
 		Page<Item> result = itemService.findByNameContaining(name, pageable);
 		return ResponseEntity.ok(result);
+	}
+	
+	@DeleteMapping("/{itemId}")
+	public ResponseEntity<Void> remove (@PathVariable Long itemId){
+		if(!(itemRepository.verifyId(itemId) > 0)) {
+			return ResponseEntity.notFound().build();
+		}
+		itemService.remove(itemId);
+		return ResponseEntity.noContent().build();
 	}
 }
