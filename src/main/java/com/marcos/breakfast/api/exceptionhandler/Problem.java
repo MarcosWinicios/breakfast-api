@@ -1,11 +1,14 @@
 package com.marcos.breakfast.api.exceptionhandler;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Problem {
 	private Integer status;
 	private LocalDateTime dateHour;
 	private String title;
+	private List<Field> fields;
+	
 	
 	public Integer getStatus() {
 		return status;
@@ -24,5 +27,11 @@ public class Problem {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public List<Field> getFields() {
+		return fields;
+	}
+	public void setFields(List<Field> fields) {
+		this.fields = fields;
 	}
 }
