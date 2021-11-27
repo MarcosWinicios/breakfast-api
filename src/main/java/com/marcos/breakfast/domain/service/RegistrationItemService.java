@@ -1,5 +1,7 @@
 package com.marcos.breakfast.domain.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,5 +20,9 @@ public class RegistrationItemService {
 		Page<Item> list = itemRepository.listAll(pageable);
 		
 		return list;
+	}
+	
+	public Optional<Item> findById(Long itemId) {
+		return itemRepository.searchById(itemId);
 	}
 }
