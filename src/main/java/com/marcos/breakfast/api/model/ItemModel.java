@@ -1,25 +1,10 @@
 package com.marcos.breakfast.api.model;
 
-import com.marcos.breakfast.domain.model.Item;
-
 public class ItemModel {
 	
 	private Long id;
 	private String itemName;
-	private String employeeName;
-	
-	
-	public ItemModel(Item item) {
-		this.id = item.getId();
-		this.itemName = item.getName();
-		this.employeeName = item.getEmployee().getName();
-	}
-	
-	public ItemModel(Long id, String itemName, String employeeName) {
-		this.id = id;
-		this.itemName = itemName;
-		this.employeeName = employeeName;
-	}
+	private EmployeeModel employee;
 	
 	public Long getId() {
 		return id;
@@ -33,10 +18,10 @@ public class ItemModel {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public String getEmployeeName() {
-		return employeeName;
+	public EmployeeModel getEmployee() {
+		return employee;
 	}
-	public void setEmployeeName(String employeeName) {
-		this.employeeName = employeeName;
+	public void setEmployee(EmployeeModel employee) {
+		this.employee = employee;
 	}
 }

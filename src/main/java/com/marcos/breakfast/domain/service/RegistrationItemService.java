@@ -2,6 +2,7 @@ package com.marcos.breakfast.domain.service;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,6 @@ import com.marcos.breakfast.api.model.ItemModel;
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
-import com.marcos.breakfast.domain.repository.EmployeeRepository;
 import com.marcos.breakfast.domain.repository.ItemRepository;
 
 @Service
@@ -23,7 +23,10 @@ public class RegistrationItemService {
 	
 	@Autowired
 	private RegistrationEmployeeService employeeService;
-		
+	
+	@Autowired
+	private ModelMapper modelMap;
+	
 	@Transactional
 	public Page<Item> findAll(Pageable pageable){
 		Page<Item> list = itemRepository.findAll(pageable);
@@ -32,7 +35,7 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public Optional<ItemModel> findById(Long itemId) {
-		return itemRepository.searchById(itemId).map(item -> new ItemModel(item));
+		return itemRepository.searchById(itemId).map(item -> modelMap.map(item, ItemModel.class));
 	}
 	
 	@Transactional
