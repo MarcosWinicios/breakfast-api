@@ -36,18 +36,13 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public Item save(Item item) {
-		
-		Optional<Item> existingName = itemRepository.searchByName(item.getName());
-		
-		if(existingName.isPresent()) {
+		boolean existingName = itemRepository.searchByName(item.getName())
+				.stream()
+				.anyMatch(existingItemName -> !existingItemName.equals(item));
+		if(existingName) {
 			throw new BusinessExcepetion("Este item já está cadastrado");
 		}
-		
-		boolean existingEmployee = employeeRepository.verifyId(item.getEmployee().getId()) > 0;
-		
-		if(!existingEmployee) {
-			throw new BusinessExcepetion("O usuário selecionado não existe");
-		}
+
 		Item savadedItem = itemRepository.save(item);
 		
 		return savadedItem;
@@ -69,5 +64,15 @@ public class RegistrationItemService {
 			throw new RuntimeException(e);
 //			throw new BusinessExcepetion("Não foi possível excluir");
 		}	
+	}
+	
+	@Transactional
+	public Item update(Item item) { 
+		System.out.println(item.toString());
+		if((itemRepository.verifyName(item.getName()) > 0)) {
+			
+		}
+		
+		return itemRepository.save(item);
 	}
 }

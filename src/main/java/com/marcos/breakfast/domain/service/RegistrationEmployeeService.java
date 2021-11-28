@@ -27,9 +27,17 @@ public class RegistrationEmployeeService {
 		if(existingCpf) {
 			throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
 		}
-		return employeeRepository.create(employee.getName(), employee.getCpf());
+//		return employeeRepository.create(employee.getName(), employee.getCpf());
 
-//		return employeeRepository.save(employee);
+		return employeeRepository.save(employee);
+	}
+	
+	@Transactional
+	public Employee update(Employee employee) {
+		System.out.println("Entrando no método update");
+		
+		
+		return employeeRepository.save(employee);
 	}
 	
 	@Transactional

@@ -59,11 +59,11 @@ public class EmployeeController {
 	
 	@PutMapping("/{employeeId}")
 	public ResponseEntity<Employee> update(@Valid @PathVariable Long employeeId, @RequestBody Employee employee ) {
-		if(!employeeRepository.existsById(employeeId)) {
+		if(!(employeeRepository.verifyId(employeeId) > 0)) {
 			return ResponseEntity.notFound().build();
 		}
 		employee.setId(employeeId);
-		employee = employeeService.save(employee);
+		employee = employeeService.update(employee);
 		return ResponseEntity.ok(employee);
 	}
 	

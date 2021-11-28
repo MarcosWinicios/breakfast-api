@@ -11,7 +11,7 @@ import com.marcos.breakfast.domain.model.Item;
 
 public interface ItemRepository  extends JpaRepository<Item, Long>{
 
-	@Query(value = "SELECT * FROM tb_item", nativeQuery = true)
+	@Query(value = "SELECT id, name, employee_id FROM tb_item", nativeQuery = true)
 	public Page<Item> listAll (Pageable pageable);
 	
 	@Query(value = "SELECT * FROM tb_item WHERE id = :itemId", nativeQuery = true)
@@ -31,6 +31,9 @@ public interface ItemRepository  extends JpaRepository<Item, Long>{
 	
 	@Query(value = "SELECT COUNT(1) FROM tb_item WHERE id = :itemId", nativeQuery = true)
 	public Long verifyId(Long itemId);
+	
+	@Query(value = "SELECT COUNT(1) FROM tb_item WHERE name = :itemName", nativeQuery = true)
+	public Long verifyName(String itemName);
 	
 	
 }
