@@ -1,6 +1,10 @@
 package com.marcos.breakfast.domain.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,5 +34,25 @@ public class RegistrationEmployeeService {
 	@Transactional
 	public void remove(Long employeeId) {
 		employeeRepository.deleteById(employeeId);
+	}
+	
+	@Transactional
+	public Page<Employee> findAll(Pageable pageable){
+		return employeeRepository.listAll(pageable);
+	}
+	
+	@Transactional
+	public Optional<Employee> findById(Long id){
+		return employeeRepository.searchById(id);
+	}
+	
+	@Transactional
+	public Optional<Employee> findByCpf(String cpf){
+		return employeeRepository.searchByCpf(cpf);
+	}
+	
+	@Transactional
+	public Page<Employee> findByNameContaing(String name, Pageable pageable){
+		return employeeRepository.searchNameContaining(name, pageable);
 	}
 }
