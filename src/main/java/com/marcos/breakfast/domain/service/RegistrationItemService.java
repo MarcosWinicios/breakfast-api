@@ -36,6 +36,9 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public Item save(Item item) {
+		if(!(employeeRepository.verifyId(item.getEmployee().getId()) > 0)) {
+			throw new BusinessExcepetion("Você está tentando atribuir um Item a um colaborador inexistente");
+		}
 		Optional<Item> result = itemRepository.searchByName(item.getName());
 		
 		if(result.isPresent()) {
