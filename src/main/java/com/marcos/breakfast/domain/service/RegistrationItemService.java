@@ -36,17 +36,15 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public Item save(Item item) {
-		boolean existingName = itemRepository.searchByName(item.getName())
-				.stream()
-				.anyMatch(existingItemName -> !existingItemName.equals(item));
-		if(existingName) {
-			throw new BusinessExcepetion("Este item já está cadastrado");
-		}
-
-		Item savadedItem = itemRepository.save(item);
+		Optional<Item> result = itemRepository.searchByName(item.getName());
 		
-		return savadedItem;
-//		return itemRepository.create(item, item.getEmployee().getId());
+		if(result.isPresent()) {
+			if(!(result.get().equals(item))) {
+				throw new BusinessExcepetion("Este item já está cadastrado");
+			}
+			return  itemRepository.save(item);//Método de update aqui
+		}
+		return  itemRepository.save(item);
 	}
 	
 	@Transactional
@@ -75,4 +73,15 @@ public class RegistrationItemService {
 		
 		return itemRepository.save(item);
 	}
+	
+//	@Transactional
+//	public Item save(Item item) {
+//		boolean existingName = itemRepository.searchByName(item.getName())
+//				.stream()
+//				.anyMatch(existingItemName -> !existingItemName.equals(item));
+//		if(existingName) {
+//			throw new BusinessExcepetion("Este item já está cadastrado");
+//		}
+//		return  itemRepository.save(item);
+//	}
 }
