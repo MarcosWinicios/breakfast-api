@@ -34,8 +34,8 @@ public class ItemController {
 	private ItemRepository itemRepository;
 	
 	@GetMapping
-	public ResponseEntity<Page<Item>> findAll(Pageable pageable){
-		Page<Item> list = itemService.findAll(pageable);		
+	public ResponseEntity<Page<ItemModel>> findAll(Pageable pageable){
+		Page<ItemModel> list = itemService.findAll(pageable);		
 		return ResponseEntity.ok(list);
 	}
 	
@@ -48,15 +48,15 @@ public class ItemController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Item> save(@Valid @RequestBody Item item){
+	public ResponseEntity<ItemModel> save(@Valid @RequestBody Item item){
 		System.out.println("ITEM A SER INSERIDO: " + item.toString());
 		
 		return ResponseEntity.ok(itemService.save(item));
 	}
 	
 	@GetMapping("/name/{name}")
-	public ResponseEntity<Page<Item>> findByNameContaing(@PathVariable String name, Pageable pageable){
-		Page<Item> result = itemService.findByNameContaining(name, pageable);
+	public ResponseEntity<Page<ItemModel>> findByNameContaing(@PathVariable String name, Pageable pageable){
+		Page<ItemModel> result = itemService.findByNameContaining(name, pageable);
 		return ResponseEntity.ok(result);
 	}
 	
@@ -70,7 +70,7 @@ public class ItemController {
 	}
 	
 	@PutMapping("/{itemId}")
-	public ResponseEntity<Item> update(@Valid @PathVariable Long itemId, @RequestBody Item item){
+	public ResponseEntity<ItemModel> update(@Valid @PathVariable Long itemId, @RequestBody Item item){
 		if(!(itemRepository.verifyId(itemId) > 0)) {
 			return ResponseEntity.notFound().build();
 		}

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.model.ItemModel;
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
@@ -25,21 +26,22 @@ public class RegistrationItemService {
 	private RegistrationEmployeeService employeeService;
 	
 	@Autowired
-	private ModelMapper modelMap;
+	private ItemAssembler itemAssembler;
 	
 	@Transactional
-	public Page<Item> findAll(Pageable pageable){
+	public Page<ItemModel> findAll(Pageable pageable){
 		Page<Item> list = itemRepository.findAll(pageable);
-		return list;
+		return itemAssembler.toCollectionModel(list, pageable);
 	}
 	
 	@Transactional
 	public Optional<ItemModel> findById(Long itemId) {
-		return itemRepository.searchById(itemId).map(item -> modelMap.map(item, ItemModel.class));
+		return itemRepository.searchById(itemId)
+				.map(item -> itemAssembler.toModel(item));
 	}
 	
 	@Transactional
-	public Item save(Item item) {
+	public ItemModel save(Item item) {
 		Employee employee = employeeService.checkIfTheIdExists(item.getEmployee().getId());
 		
 		item.setEmployee(employee);
@@ -50,14 +52,15 @@ public class RegistrationItemService {
 				throw new BusinessExcepetion("Este item já está cadastrado");
 			}
 //			return itemRepository.update(item.getId(), item.getName(), item.getEmployee().getId());
-			return  itemRepository.save(item);//Método de update aqui
+			return  itemAssembler.toModel(itemRepository.save(item));//Método de update aqui
 		}
-		return  itemRepository.save(item);
+		return  itemAssembler.toModel(itemRepository.save(item));
 	}
 	
 	@Transactional
-	public Page<Item> findByNameContaining(String name, Pageable pageable){
-		return itemRepository.searchNameContaining(name, pageable);
+	public Page<ItemModel> findByNameContaining(String name, Pageable pageable){
+		Page<Item> list = itemRepository.searchNameContaining(name, pageable);
+		return itemAssembler.toCollectionModel(list, pageable);
 	}
 	
 	@Transactional
