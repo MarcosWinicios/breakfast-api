@@ -63,7 +63,7 @@ public class EmployeeController {
 			return ResponseEntity.notFound().build();
 		}
 		employee.setId(employeeId);
-		employee = employeeService.update(employee);
+		employee = employeeService.save(employee);
 		return ResponseEntity.ok(employee);
 	}
 	

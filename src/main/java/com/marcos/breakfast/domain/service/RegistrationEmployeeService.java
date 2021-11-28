@@ -18,19 +18,22 @@ public class RegistrationEmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	
+	
 	@Transactional
 	public  Employee save(Employee employee) {
 		
-		boolean existingCpf = employeeRepository.searchByCpf(employee.getCpf())
-				.stream()
-				.anyMatch(existingEmployee -> !existingEmployee.equals(employee));
-		if(existingCpf) {
-			throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
+		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
+		if(result.isPresent()) {
+			boolean isEquals = result.get().equals(employee);
+			if(!isEquals) {
+				throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
+			}
+			return employeeRepository.save(employee); 
 		}
-//		return employeeRepository.create(employee.getName(), employee.getCpf());
-
 		return employeeRepository.save(employee);
 	}
+	
 	
 	@Transactional
 	public Employee update(Employee employee) {
@@ -64,4 +67,19 @@ public class RegistrationEmployeeService {
 	public Page<Employee> findByNameContaing(String name, Pageable pageable){
 		return employeeRepository.searchNameContaining(name, pageable);
 	}
+	
+	/*
+	@Transactional
+	public  Employee save(Employee employee) {
+		
+		boolean existingCpf = employeeRepository.searchByCpf(employee.getCpf())
+				.stream()
+				.anyMatch(existingEmployee -> !existingEmployee.equals(employee));
+		if(existingCpf) {
+			throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
+		}
+		return employeeRepository.save(employee);
+	}
+	*/
+	
 }
