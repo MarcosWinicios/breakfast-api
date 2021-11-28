@@ -35,7 +35,7 @@ public class RegistrationItemService {
 	}
 	
 	@Transactional
-	public Item save(Item item, Long employeeId) {
+	public Item save(Item item) {
 		
 		Optional<Item> existingName = itemRepository.searchByName(item.getName());
 		
@@ -43,13 +43,15 @@ public class RegistrationItemService {
 			throw new BusinessExcepetion("Este item já está cadastrado");
 		}
 		
-		boolean existingEmployee = employeeRepository.verifyId(employeeId) > 0;
+		boolean existingEmployee = employeeRepository.verifyId(item.getEmployee().getId()) > 0;
 		
 		if(!existingEmployee) {
 			throw new BusinessExcepetion("O usuário selecionado não existe");
 		}
+		Item savadedItem = itemRepository.save(item);
 		
-		return itemRepository.create(item, employeeId);
+		return savadedItem;
+//		return itemRepository.create(item, item.getEmployee().getId());
 	}
 	
 	@Transactional
@@ -66,7 +68,6 @@ public class RegistrationItemService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 //			throw new BusinessExcepetion("Não foi possível excluir");
-		}
-		
+		}	
 	}
 }

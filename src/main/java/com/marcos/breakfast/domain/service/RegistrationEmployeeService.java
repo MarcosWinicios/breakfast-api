@@ -21,14 +21,15 @@ public class RegistrationEmployeeService {
 	@Transactional
 	public  Employee save(Employee employee) {
 		
-		boolean existingCpf = employeeRepository.findByCpf(employee.getCpf())
+		boolean existingCpf = employeeRepository.searchByCpf(employee.getCpf())
 				.stream()
 				.anyMatch(existingEmployee -> !existingEmployee.equals(employee));
 		if(existingCpf) {
 			throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
 		}
-		
 		return employeeRepository.create(employee.getName(), employee.getCpf());
+
+//		return employeeRepository.save(employee);
 	}
 	
 	@Transactional

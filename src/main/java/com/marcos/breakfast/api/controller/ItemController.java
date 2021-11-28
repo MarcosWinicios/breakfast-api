@@ -50,7 +50,7 @@ public class ItemController {
 	public ResponseEntity<Item> save(@RequestBody Item item){
 		System.out.println("ITEM A SER INSERIDO: " + item.toString());
 		
-		return ResponseEntity.ok(new Item());
+		return ResponseEntity.ok(itemService.save(item));
 	}
 	
 	@GetMapping("/name/{name}")

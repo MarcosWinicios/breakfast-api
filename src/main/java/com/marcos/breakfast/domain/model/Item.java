@@ -44,6 +44,14 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
 
 	@Override
 	public int hashCode() {
@@ -64,6 +72,6 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", name=" + name + "]";
+		return "Item [id=" + id + ", name=" + name + ", employee=" + employee + "]";
 	}
 }
