@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.marcos.breakfast.api.model.ItemModel;
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
@@ -30,8 +31,8 @@ public class RegistrationItemService {
 	}
 	
 	@Transactional
-	public Optional<Item> findById(Long itemId) {
-		return itemRepository.searchById(itemId);
+	public Optional<ItemModel> findById(Long itemId) {
+		return itemRepository.searchById(itemId).map(item -> new ItemModel(item));
 	}
 	
 	@Transactional

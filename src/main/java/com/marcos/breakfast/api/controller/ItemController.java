@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcos.breakfast.api.model.ItemModel;
 import com.marcos.breakfast.domain.model.Item;
 import com.marcos.breakfast.domain.repository.ItemRepository;
 import com.marcos.breakfast.domain.service.RegistrationItemService;
@@ -39,7 +40,7 @@ public class ItemController {
 	}
 	
 	@GetMapping("/{itemId}")
-	public ResponseEntity<Item> findById(@PathVariable Long itemId){		 
+	public ResponseEntity<ItemModel> findById(@PathVariable Long itemId){		 
 		return itemService.findById(itemId)
 				.map(item -> ResponseEntity.ok(item))
 				.orElse(ResponseEntity.notFound().build());		
