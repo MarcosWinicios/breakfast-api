@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.marcos.breakfast.api.assembler.EmployeeAssembler;
+import com.marcos.breakfast.api.model.EmployeeModel;
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
@@ -19,13 +21,16 @@ public class RegistrationEmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	@Autowired
+	private EmployeeAssembler employeeAssembler;
+	
 	public Employee checkIfTheIdExists(Long id) {
 		return employeeRepository.searchById(id)
 				.orElseThrow(() -> new BusinessExcepetion("Você está tentando atribuir um Item a um colaborador inexistente"));
 	}
 	
 	@Transactional
-	public  Employee save(Employee employee) {
+	public  EmployeeModel save(Employee employee) {
 		
 		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
 		if(result.isPresent()) {
@@ -34,9 +39,11 @@ public class RegistrationEmployeeService {
 				throw new BusinessExcepetion("Já existe um colaborador cadastrado com este CPF");
 			}
 //			return employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
-			return employeeRepository.save(employee); //Método de update aqui
+			return employeeAssembler.toModel(
+					employeeRepository.save(employee)); //Método de update aqui
 		}
-		return employeeRepository.save(employee);
+		return employeeAssembler.toModel(
+				employeeRepository.save(employee));
 	}
 	
 	
@@ -47,23 +54,29 @@ public class RegistrationEmployeeService {
 	}
 	
 	@Transactional
-	public Page<Employee> findAll(Pageable pageable){
-		return employeeRepository.listAll(pageable);
+	public Page<EmployeeModel> findAll(Pageable pageable){
+		return employeeAssembler.toCollection(
+				employeeRepository.listAll(pageable), 
+				pageable) ;
 	}
 	
 	@Transactional
-	public Optional<Employee> findById(Long id){
-		return employeeRepository.searchById(id);
+	public Optional<EmployeeModel> findById(Long id){
+		return employeeRepository.searchById(id)
+				.map(employee -> employeeAssembler.toModel(employee));
 	}
 	
 	@Transactional
-	public Optional<Employee> findByCpf(String cpf){
-		return employeeRepository.searchByCpf(cpf);
+	public Optional<EmployeeModel> findByCpf(String cpf){
+		return employeeRepository.searchByCpf(cpf)
+				.map(employee -> employeeAssembler.toModel(employee));
 	}
 	
 	@Transactional
-	public Page<Employee> findByNameContaing(String name, Pageable pageable){
-		return employeeRepository.searchNameContaining(name, pageable);
+	public Page<EmployeeModel> findByNameContaing(String name, Pageable pageable){
+		return employeeAssembler.toCollection(
+				employeeRepository.searchNameContaining(name, pageable), 
+				pageable);
 	}
 	
 	/*

@@ -30,7 +30,7 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public Page<ItemModel> findAll(Pageable pageable){
-		Page<Item> list = itemRepository.findAll(pageable);
+		Page<Item> list = itemRepository.listAll(pageable);
 		return itemAssembler.toCollectionModel(list, pageable);
 	}
 	
