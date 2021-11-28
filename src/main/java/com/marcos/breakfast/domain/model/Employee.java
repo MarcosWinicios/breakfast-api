@@ -35,9 +35,6 @@ public class Employee implements Serializable{
 	@Column(name="cpf")
 	private String cpf;
 	
-	@OneToMany(mappedBy = "employee")
-	private List<Item> items = new ArrayList<>();
-	
 	public Employee() {}
 	
 	public Employee(String name, String cpf) {
@@ -70,9 +67,6 @@ public class Employee implements Serializable{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-//	public List<Item> getItems() {
-//		return items;
-//	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -91,7 +85,7 @@ public class Employee implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", cpf=" + cpf + ", items=" + items + "]";
+		return "Employee [id=" + id + ", name=" + name + ", cpf=" + cpf +"]";
 	}
 
 

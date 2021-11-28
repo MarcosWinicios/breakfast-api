@@ -22,10 +22,7 @@ public class RegistrationItemService {
 	
 	@Autowired
 	private RegistrationEmployeeService employeeService;
-	
-	@Autowired
-	private EmployeeRepository employeeRepository;
-	
+		
 	@Transactional
 	public Page<Item> findAll(Pageable pageable){
 		Page<Item> list = itemRepository.findAll(pageable);

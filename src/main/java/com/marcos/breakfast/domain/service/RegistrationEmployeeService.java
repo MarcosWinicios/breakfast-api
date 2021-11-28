@@ -48,17 +48,12 @@ public class RegistrationEmployeeService {
 	
 	@Transactional
 	public Page<Employee> findAll(Pageable pageable){
-		return employeeRepository.findAll(pageable);
+		return employeeRepository.listAll(pageable);
 	}
 	
 	@Transactional
 	public Optional<Employee> findById(Long id){
-		var result = employeeRepository.findById(id);
-		
-		if(result.isPresent()) {
-			System.out.println(result.get().getName());
-		}
-		return employeeRepository.findById(id);
+		return employeeRepository.searchById(id);
 	}
 	
 	@Transactional
