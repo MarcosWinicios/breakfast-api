@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.model.ItemModel;
+import com.marcos.breakfast.api.model.input.ItemInput;
 import com.marcos.breakfast.domain.model.Item;
 import com.marcos.breakfast.domain.repository.ItemRepository;
 import com.marcos.breakfast.domain.service.RegistrationItemService;
@@ -32,6 +34,9 @@ public class ItemController {
 	
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private ItemAssembler itemAssembler;
 	
 	@GetMapping
 	public ResponseEntity<Page<ItemModel>> findAll(Pageable pageable){
@@ -48,10 +53,11 @@ public class ItemController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<ItemModel> save(@Valid @RequestBody Item item){
+	public ResponseEntity<ItemModel> save(@Valid @RequestBody ItemInput item){
 		System.out.println("ITEM A SER INSERIDO: " + item.toString());
 		
-		return ResponseEntity.ok(itemService.save(item));
+		Item newItem = itemAssembler.toEntity(item); 
+		return ResponseEntity.ok(itemService.save(newItem));
 	}
 	
 	@GetMapping("/name/{name}")
@@ -74,7 +80,19 @@ public class ItemController {
 		if(!(itemRepository.verifyId(itemId) > 0)) {
 			return ResponseEntity.notFound().build();
 		}
+		
 		item.setId(itemId);
 		return ResponseEntity.ok(itemService.save(item));
 	}
+	
+	
+//	@PutMapping("/{itemId}")
+//	public ResponseEntity<ItemModel> update(@Valid @PathVariable Long itemId, @RequestBody ItemModel itemModel){
+//		if(!(itemRepository.verifyId(itemId) > 0)) {
+//			return ResponseEntity.notFound().build();
+//		}
+//		Item newItem = itemAssembler.toEntity(itemModel);
+//		newItem.setId(itemId);
+//		return ResponseEntity.ok(itemService.save(newItem));
+//	}
 }

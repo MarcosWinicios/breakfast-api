@@ -2,7 +2,6 @@ package com.marcos.breakfast.domain.service;
 
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.model.ItemModel;
+import com.marcos.breakfast.api.model.input.ItemInput;
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
@@ -42,6 +42,7 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public ItemModel save(Item item) {
+		
 		Employee employee = employeeService.checkIfTheIdExists(item.getEmployee().getId());
 		
 		item.setEmployee(employee);

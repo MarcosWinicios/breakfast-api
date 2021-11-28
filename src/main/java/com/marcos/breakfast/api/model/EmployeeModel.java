@@ -1,19 +1,19 @@
 package com.marcos.breakfast.api.model;
 
 public class EmployeeModel {
-	private Long idEmployee;
-	private String nameEmployee;
+	private Long id;
+	private String name;
 	
-	public Long getIdEmployee() {
-		return idEmployee;
+	public Long getId() {
+		return id;
 	}
-	public void setIdEmployee(Long idEmployee) {
-		this.idEmployee = idEmployee;
+	public void setId(Long idEmployee) {
+		this.id = idEmployee;
 	}
-	public String getNameEmployee() {
-		return nameEmployee;
+	public String getName() {
+		return name;
 	}
-	public void setNameEmployee(String nameEmployee) {
-		this.nameEmployee = nameEmployee;
+	public void setName(String nameEmployee) {
+		this.name = nameEmployee;
 	}
 }
