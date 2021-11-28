@@ -37,15 +37,8 @@ public class RegistrationEmployeeService {
 	
 	
 	@Transactional
-	public Employee update(Employee employee) {
-		System.out.println("Entrando no método update");
-		
-		
-		return employeeRepository.save(employee);
-	}
-	
-	@Transactional
 	public void remove(Long employeeId) {
+//		employeeRepository.removeById(employeeId);
 		employeeRepository.deleteById(employeeId);
 	}
 	

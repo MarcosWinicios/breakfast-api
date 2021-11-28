@@ -58,24 +58,9 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public void remove(Long itemId) {
+		itemRepository.removeById(itemId);
 		
-//		itemRepository.removeById(itemId);
-		try {
-			itemRepository.deleteById(itemId);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-//			throw new BusinessExcepetion("Não foi possível excluir");
-		}	
-	}
-	
-	@Transactional
-	public Item update(Item item) { 
-		System.out.println(item.toString());
-		if((itemRepository.verifyName(item.getName()) > 0)) {
-			
-		}
-		
-		return itemRepository.save(item);
+//		itemRepository.deleteById(itemId);	
 	}
 	
 //	@Transactional
