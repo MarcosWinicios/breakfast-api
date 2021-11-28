@@ -35,5 +35,10 @@ public interface ItemRepository  extends JpaRepository<Item, Long>{
 	@Query(value = "SELECT COUNT(1) FROM tb_item WHERE name = :itemName", nativeQuery = true)
 	public Long verifyName(String itemName);
 	
+	@Query(value = "UPDATE tb_item SET name = :itemName, employee_id = :employeeId WHERE id = :itemId", nativeQuery = true)
+	public Item update(Long itemId, String itemName, Long employeeId);
+	
+	
+	
 	
 }

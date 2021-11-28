@@ -40,4 +40,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
 	@Query(value = "DELETE FROM tb_employee WHERE id = :employeeId", nativeQuery = true)
 	public void removeById(Long employeeId);
+	
+	@Query(value = "UPDATE tb_employee SET name = :employeeName, cpf = :cpf WHERE id = :employeeId", nativeQuery = true)
+	public Employee update(Long employeeId, String employeeName, String cpf);
 }

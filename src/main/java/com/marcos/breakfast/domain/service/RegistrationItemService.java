@@ -42,6 +42,7 @@ public class RegistrationItemService {
 			if(!(result.get().equals(item))) {
 				throw new BusinessExcepetion("Este item já está cadastrado");
 			}
+//			return itemRepository.update(item.getId(), item.getName(), item.getEmployee().getId());
 			return  itemRepository.save(item);//Método de update aqui
 		}
 		return  itemRepository.save(item);

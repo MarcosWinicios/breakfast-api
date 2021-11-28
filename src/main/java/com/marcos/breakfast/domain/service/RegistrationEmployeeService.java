@@ -27,9 +27,10 @@ public class RegistrationEmployeeService {
 		if(result.isPresent()) {
 			boolean isEquals = result.get().equals(employee);
 			if(!isEquals) {
-				throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
+				throw new BusinessExcepetion("Já existe um colaborador cadastrado com este CPF");
 			}
-			return employeeRepository.save(employee); 
+//			return employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
+			return employeeRepository.save(employee); //Método de update aqui
 		}
 		return employeeRepository.save(employee);
 	}
