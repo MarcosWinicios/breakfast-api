@@ -1,5 +1,6 @@
 package com.marcos.breakfast.domain.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,12 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Entity(name="tb_employee")
-public class Employee {
+@Entity
+@Table(name="tb_employee")
+public class Employee implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -65,12 +70,13 @@ public class Employee {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-
+//	public List<Item> getItems() {
+//		return items;
+//	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -85,7 +91,9 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", cpf=" + cpf + "]";
+		return "Employee [id=" + id + ", name=" + name + ", cpf=" + cpf + ", items=" + items + "]";
 	}
+
+
 }
  

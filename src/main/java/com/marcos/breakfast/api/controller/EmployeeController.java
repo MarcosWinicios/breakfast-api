@@ -34,13 +34,13 @@ public class EmployeeController {
 	
 	@GetMapping
 	public ResponseEntity<Page<Employee>> findAll(Pageable page) {
-		Page<Employee> list = employeeRepository.listAll(page);
+		Page<Employee> list = employeeService.findAll(page);
 		return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("/{employeeId}")
 	public ResponseEntity<Employee> findById(@PathVariable Long employeeId) {
-		return employeeRepository.searchById(employeeId)
+		return employeeService.findById(employeeId)
 				.map(employee -> ResponseEntity.ok(employee))
 				.orElse(ResponseEntity.notFound().build());
 		

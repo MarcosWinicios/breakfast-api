@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
@@ -18,7 +19,10 @@ public class RegistrationEmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	
+	public Employee checkIfTheIdExists(Long id) {
+		return employeeRepository.searchById(id)
+				.orElseThrow(() -> new BusinessExcepetion("Você está tentando atribuir um Item a um colaborador inexistente"));
+	}
 	
 	@Transactional
 	public  Employee save(Employee employee) {
@@ -44,12 +48,17 @@ public class RegistrationEmployeeService {
 	
 	@Transactional
 	public Page<Employee> findAll(Pageable pageable){
-		return employeeRepository.listAll(pageable);
+		return employeeRepository.findAll(pageable);
 	}
 	
 	@Transactional
 	public Optional<Employee> findById(Long id){
-		return employeeRepository.searchById(id);
+		var result = employeeRepository.findById(id);
+		
+		if(result.isPresent()) {
+			System.out.println(result.get().getName());
+		}
+		return employeeRepository.findById(id);
 	}
 	
 	@Transactional

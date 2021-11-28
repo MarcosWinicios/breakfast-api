@@ -2,14 +2,14 @@ package com.marcos.breakfast.domain.service;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
+import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
 import com.marcos.breakfast.domain.repository.ItemRepository;
@@ -21,11 +21,14 @@ public class RegistrationItemService {
 	private ItemRepository itemRepository;
 	
 	@Autowired
+	private RegistrationEmployeeService employeeService;
+	
+	@Autowired
 	private EmployeeRepository employeeRepository;
 	
 	@Transactional
 	public Page<Item> findAll(Pageable pageable){
-		Page<Item> list = itemRepository.listAll(pageable);
+		Page<Item> list = itemRepository.findAll(pageable);
 		return list;
 	}
 	
@@ -36,9 +39,9 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public Item save(Item item) {
-		if(!(employeeRepository.verifyId(item.getEmployee().getId()) > 0)) {
-			throw new BusinessExcepetion("Você está tentando atribuir um Item a um colaborador inexistente");
-		}
+		Employee employee = employeeService.checkIfTheIdExists(item.getEmployee().getId());
+		
+		item.setEmployee(employee);
 		Optional<Item> result = itemRepository.searchByName(item.getName());
 		
 		if(result.isPresent()) {
@@ -58,9 +61,9 @@ public class RegistrationItemService {
 	
 	@Transactional
 	public void remove(Long itemId) {
-		itemRepository.removeById(itemId);
+//		itemRepository.removeById(itemId);
 		
-//		itemRepository.deleteById(itemId);	
+		itemRepository.deleteById(itemId);	
 	}
 	
 //	@Transactional
