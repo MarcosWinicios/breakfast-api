@@ -1,5 +1,7 @@
 package com.marcos.breakfast.api.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +76,12 @@ public class EmployeeController {
 		}
 		employeeService.remove(employeeId);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/cpf/{cpf}")
+	public ResponseEntity<Employee> findByCpf(@PathVariable String cpf){
+		return employeeService.findByCpf(cpf)
+				.map(employee -> ResponseEntity.ok(employee))
+				.orElse(ResponseEntity.notFound().build());
 	}
 }
