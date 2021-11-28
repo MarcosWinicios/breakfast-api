@@ -23,11 +23,13 @@ public class RegistrationItemService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	@Transactional
 	public Page<Item> findAll(Pageable pageable){
 		Page<Item> list = itemRepository.listAll(pageable);
 		return list;
 	}
 	
+	@Transactional
 	public Optional<Item> findById(Long itemId) {
 		return itemRepository.searchById(itemId);
 	}

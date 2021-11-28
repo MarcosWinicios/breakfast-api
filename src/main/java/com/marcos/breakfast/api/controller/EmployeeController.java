@@ -1,7 +1,5 @@
 package com.marcos.breakfast.api.controller;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +81,12 @@ public class EmployeeController {
 		return employeeService.findByCpf(cpf)
 				.map(employee -> ResponseEntity.ok(employee))
 				.orElse(ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("/name/{name}")
+	public ResponseEntity<Page<Employee>> findByNameContaing(@PathVariable String name, Pageable pageable){
+		System.out.println(name);
+		return ResponseEntity.ok(
+				employeeService.findByNameContaing(name, pageable));
 	}
 }
