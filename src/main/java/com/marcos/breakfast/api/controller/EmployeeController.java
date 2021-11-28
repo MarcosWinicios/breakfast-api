@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.breakfast.api.model.EmployeeModel;
+import com.marcos.breakfast.api.model.ItemModel;
+import com.marcos.breakfast.api.model.ItemResumeModel;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
 import com.marcos.breakfast.domain.service.RegistrationEmployeeService;
@@ -87,5 +89,14 @@ public class EmployeeController {
 	public ResponseEntity<Page<EmployeeModel>> findByNameContaing(@PathVariable String name, Pageable pageable){
 		return ResponseEntity.ok(
 				employeeService.findByNameContaing(name, pageable));
+	}
+	
+	@GetMapping("/{employeeId}/items")
+	public ResponseEntity<Page<ItemResumeModel>> findAllItems(@PathVariable Long employeeId, Pageable pageable){
+		if(!(employeeRepository.verifyId(employeeId) > 0)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(
+				employeeService.findAllItemsByEmployeeId(employeeId, pageable));
 	}
 }

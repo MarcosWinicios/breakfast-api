@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.api.assembler.EmployeeAssembler;
+import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.model.EmployeeModel;
+import com.marcos.breakfast.api.model.ItemModel;
+import com.marcos.breakfast.api.model.ItemResumeModel;
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
+import com.marcos.breakfast.domain.repository.ItemRepository;
 
 @Service
 public class RegistrationEmployeeService {
@@ -23,6 +26,12 @@ public class RegistrationEmployeeService {
 	
 	@Autowired
 	private EmployeeAssembler employeeAssembler;
+	
+	@Autowired
+	private ItemAssembler itemAssembler;
+	
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	public Employee checkIfTheIdExists(Long id) {
 		return employeeRepository.searchById(id)
@@ -78,6 +87,14 @@ public class RegistrationEmployeeService {
 				employeeRepository.searchNameContaining(name, pageable), 
 				pageable);
 	}
+	
+	@Transactional
+	public Page<ItemResumeModel> findAllItemsByEmployeeId(Long employeeId, Pageable pageable){ 
+		return itemAssembler.toResumeModelList(
+				itemRepository.searchByEmployee(employeeId, pageable),
+				pageable);
+	}
+	
 	
 	/*
 	@Transactional

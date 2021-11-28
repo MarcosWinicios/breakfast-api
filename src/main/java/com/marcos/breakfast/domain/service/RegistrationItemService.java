@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.model.ItemModel;
-import com.marcos.breakfast.api.model.input.ItemInput;
 import com.marcos.breakfast.domain.exception.BusinessExcepetion;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
@@ -63,6 +62,8 @@ public class RegistrationItemService {
 		Page<Item> list = itemRepository.searchNameContaining(name, pageable);
 		return itemAssembler.toCollectionModel(list, pageable);
 	}
+	
+	
 	
 	@Transactional
 	public void remove(Long itemId) {

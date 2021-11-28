@@ -38,7 +38,7 @@ public interface ItemRepository  extends JpaRepository<Item, Long>{
 	@Query(value = "UPDATE tb_item SET name = :itemName, employee_id = :employeeId WHERE id = :itemId", nativeQuery = true)
 	public Item update(Long itemId, String itemName, Long employeeId);
 	
-	
-	
+	@Query(value = "SELECT * FROM  tb_item WHERE employee_id = :employeeId", nativeQuery = true)
+	public Page<Item> searchByEmployee(Long employeeId, Pageable pageable);
 	
 }
