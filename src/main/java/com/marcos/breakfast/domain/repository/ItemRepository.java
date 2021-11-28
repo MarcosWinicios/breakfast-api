@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.marcos.breakfast.domain.model.Item;
 
 public interface ItemRepository  extends JpaRepository<Item, Long>{
-
+//	@Query(value = "SELECT * FROM tb_item i INNER JOIN tb_employee e ON e.id = i.employee_id", nativeQuery = true)
 	@Query(value = "SELECT id, name, employee_id FROM tb_item", nativeQuery = true)
 	public Page<Item> listAll (Pageable pageable);
 	
