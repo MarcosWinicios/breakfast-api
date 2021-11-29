@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.model.ItemModel;
-import com.marcos.breakfast.domain.exception.BusinessExcepetion;
+import com.marcos.breakfast.domain.exception.BusinessException;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
 import com.marcos.breakfast.domain.repository.ItemRepository;
@@ -49,7 +49,7 @@ public class RegistrationItemService {
 		
 		if(result.isPresent()) {
 			if(!(result.get().equals(item))) {
-				throw new BusinessExcepetion("Este item já está cadastrado");
+				throw new BusinessException("Este item já está cadastrado");
 			}
 //			return itemRepository.update(item.getId(), item.getName(), item.getEmployee().getId());
 			return  itemAssembler.toModel(itemRepository.save(item));//Método de update aqui
@@ -78,7 +78,7 @@ public class RegistrationItemService {
 //				.stream()
 //				.anyMatch(existingItemName -> !existingItemName.equals(item));
 //		if(existingName) {
-//			throw new BusinessExcepetion("Este item já está cadastrado");
+//			throw new BusinessException("Este item já está cadastrado");
 //		}
 //		return  itemRepository.save(item);
 //	}

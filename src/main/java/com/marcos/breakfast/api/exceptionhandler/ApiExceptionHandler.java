@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.marcos.breakfast.domain.exception.BusinessExcepetion;
+import com.marcos.breakfast.domain.exception.BusinessException;
 
 
 @ControllerAdvice
@@ -58,8 +58,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 	
-	@ExceptionHandler(BusinessExcepetion.class)
-	public ResponseEntity<Object> handleBusiness(BusinessExcepetion ex, WebRequest request){
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<Object> handleBusiness(BusinessException ex, WebRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
 		Problem problem = new Problem();

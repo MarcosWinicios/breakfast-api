@@ -1,9 +1,12 @@
 package com.marcos.breakfast.api.model;
 
+import java.util.List;
+
 public class EmployeeModel {
 	private Long id;
 	private String name;
 	private String cpf;
+	private List<ItemResumeModel> items;
 	
 	public Long getId() {
 		return id;
@@ -22,5 +25,11 @@ public class EmployeeModel {
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+	public List<ItemResumeModel> getItems() {
+		return items;
+	}
+	public void setItems(List<ItemResumeModel> items) {
+		this.items = items;
 	}
 }

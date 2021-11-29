@@ -13,7 +13,7 @@ import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.model.EmployeeModel;
 import com.marcos.breakfast.api.model.ItemModel;
 import com.marcos.breakfast.api.model.ItemResumeModel;
-import com.marcos.breakfast.domain.exception.BusinessExcepetion;
+import com.marcos.breakfast.domain.exception.BusinessException;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
 import com.marcos.breakfast.domain.repository.ItemRepository;
@@ -35,7 +35,7 @@ public class RegistrationEmployeeService {
 	
 	public Employee checkIfTheIdExists(Long id) {
 		return employeeRepository.searchById(id)
-				.orElseThrow(() -> new BusinessExcepetion("Você está tentando atribuir um Item a um colaborador inexistente"));
+				.orElseThrow(() -> new BusinessException("Você está tentando atribuir um Item a um colaborador inexistente"));
 	}
 	
 	@Transactional
@@ -45,14 +45,14 @@ public class RegistrationEmployeeService {
 		if(result.isPresent()) {
 			boolean isEquals = result.get().equals(employee);
 			if(!isEquals) {
-				throw new BusinessExcepetion("Já existe um colaborador cadastrado com este CPF");
+				throw new BusinessException("Já existe um colaborador cadastrado com este CPF");
 			}
 //			return employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
 			return employeeAssembler.toModel(
 					employeeRepository.save(employee)); //Método de update aqui
 		}
 		return employeeAssembler.toModel(
-				employeeRepository.save(employee));
+				new Employee());
 	}
 	
 	
@@ -104,7 +104,7 @@ public class RegistrationEmployeeService {
 				.stream()
 				.anyMatch(existingEmployee -> !existingEmployee.equals(employee));
 		if(existingCpf) {
-			throw new BusinessExcepetion("Já existe um cliente cadastrado com este CPF");
+			throw new BusinessException("Já existe um cliente cadastrado com este CPF");
 		}
 		return employeeRepository.save(employee);
 	}

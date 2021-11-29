@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="tb_employee")
 public class Employee implements Serializable{
@@ -34,6 +36,10 @@ public class Employee implements Serializable{
 	@Size(min=11, max=11)
 	@Column(name="cpf")
 	private String cpf;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "employee")
+	private List<Item> items = new ArrayList<>();
 	
 	public Employee() {}
 	
@@ -67,6 +73,13 @@ public class Employee implements Serializable{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+	public List<Item> getItems() {
+		return items;
+	}
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

@@ -1,10 +1,10 @@
 package com.marcos.breakfast.domain.exception;
 
-public class BusinessExcepetion extends RuntimeException{
+public class BusinessException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 	
-	public BusinessExcepetion(String message) {
+	public BusinessException(String message) {
 		super(message);
 	}
 
