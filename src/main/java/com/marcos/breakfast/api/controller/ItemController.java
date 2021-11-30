@@ -25,7 +25,7 @@ import com.marcos.breakfast.domain.model.Item;
 import com.marcos.breakfast.domain.repository.ItemRepository;
 import com.marcos.breakfast.domain.service.RegistrationItemService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/items")
 public class ItemController {

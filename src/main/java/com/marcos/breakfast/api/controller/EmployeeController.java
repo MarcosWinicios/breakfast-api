@@ -24,7 +24,7 @@ import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
 import com.marcos.breakfast.domain.service.RegistrationEmployeeService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/employees")
 public class EmployeeController {
