@@ -1,6 +1,7 @@
 package com.marcos.breakfast.api.model.input;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class ItemInput {
@@ -10,7 +11,7 @@ public class ItemInput {
 	private EmployeeIdInput employee;	
 	
 	@Valid
-	@NotNull
+	@NotBlank
 	private String itemName;
 
 	public EmployeeIdInput getEmployee() {

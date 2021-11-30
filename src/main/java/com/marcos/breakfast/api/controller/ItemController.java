@@ -55,7 +55,7 @@ public class ItemController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ItemModel> save(@Valid @RequestBody ItemInput item){
-		System.out.println("ITEM A SER INSERIDO: " + item.toString());
+		System.out.println("ITEM A SER INSERIDO : " + item.toString());
 		
 		Item newItem = itemAssembler.toEntity(item); 
 		return ResponseEntity.ok(itemService.save(newItem));
@@ -83,8 +83,8 @@ public class ItemController {
 		}
 		
 		item.setId(itemId);
-		System.out.println("ITEM A SER INSERIDO: " + item.toString());
-		return ResponseEntity.ok(itemService.save(item));
+		System.out.println("ITEM A SER INSERIDO PELO UPDATE: " + item.toString());
+		return ResponseEntity.ok(itemService.update(item));
 	}
 	
 	

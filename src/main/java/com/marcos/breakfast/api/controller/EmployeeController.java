@@ -66,7 +66,7 @@ public class EmployeeController {
 			return ResponseEntity.notFound().build();
 		}
 		employee.setId(employeeId);
-		return ResponseEntity.ok(employeeService.save(employee));
+		return ResponseEntity.ok(employeeService.update(employee));
 	}
 	
 	@DeleteMapping("/{employeeId}")

@@ -38,30 +38,6 @@ public class RegistrationEmployeeService {
 				.orElseThrow(() -> new BusinessException("Você está tentando atribuir um Item a um colaborador inexistente"));
 	}
 	
-	@Transactional
-	public  EmployeeModel save(Employee employee) {
-		
-		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
-		if(result.isPresent()) {
-			boolean isEquals = result.get().equals(employee);
-			if(!isEquals) {
-				throw new BusinessException("Já existe um colaborador cadastrado com este CPF");
-			}
-			employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
-			
-			
-			return employeeAssembler.toModel(
-					employeeRepository
-					.searchById(employee.getId())
-					.get());
-		}
-		
-		employeeRepository.create(employee.getName(), employee.getCpf());
-		
-		return employeeAssembler.toModel(
-				this.findLastEmployee());
-	}
-	
 	
 	@Transactional
 	public void remove(Long employeeId) {
@@ -106,6 +82,38 @@ public class RegistrationEmployeeService {
 		return employeeRepository.searchLastId();
 	}
 	
+	@Transactional
+	public EmployeeModel update (Employee employee) {
+		
+		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
+		if((result.isPresent())) {
+			boolean isEquals = result.get().equals(employee);
+			if(!isEquals) {
+				throw new BusinessException("Já existe um colaborador cadastrado com esse cpf");
+			}
+			employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
+			return	employeeAssembler.toModel(
+					employeeRepository
+					.searchById(employee.getId())
+					.get());
+		}
+		employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
+		
+		return	employeeAssembler.toModel(
+				employeeRepository
+				.searchById(employee.getId())
+				.get());
+	}
+	
+	@Transactional
+	public EmployeeModel save(Employee employee) {
+		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
+		if(result.isPresent()) {
+			throw new BusinessException("Já existe um colaborador cadastrado com esse cpf");
+		}
+		employeeRepository.create(employee.getName(), employee.getCpf());
+		return employeeAssembler.toModel(employeeRepository.searchLastId());
+	}
 	
 	/*
 	 * Outra forma de salvar/atualizar Colaboradores utilizando o JPA

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,7 +42,8 @@ public class Employee implements Serializable{
 	private String cpf;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "employee")
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},  mappedBy = "employee")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Item> items = new ArrayList<>();
 	
 	public Employee() {}

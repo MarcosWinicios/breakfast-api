@@ -25,9 +25,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	@Query(value = "INSERT INTO tb_employee (name, cpf) VALUES (?1, ?2)", nativeQuery = true)
 	public Integer create(String name, String cpf);
 	
-//	public Employee create(@Param("name") String name, @Param("cpf") String cpf);
-
-//	@Query(value = "SELECT * FROM tb_employee e INNER JOIN tb_item i ON e.id = i.employee_id", nativeQuery = true)
 	@Query(value = "SELECT * FROM tb_employee", nativeQuery = true)
 	public Page<Employee> listAll(Pageable pageable);
 	
