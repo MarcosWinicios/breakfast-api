@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.marcos.breakfast.domain.model.Item;
@@ -26,7 +27,8 @@ public interface ItemRepository  extends JpaRepository<Item, Long>{
 	@Query(value = "SELECT * FROM tb_item WHERE name LIKE %:itemName%", nativeQuery = true)
 	public Page<Item> searchNameContaining(String itemName, Pageable pageable);
 	
-	@Query(value = "DELETE FROM tb_item WHERE id = :itemId", nativeQuery = true)
+	@Modifying
+	@Query(value = "DELETE FROM tb_item WHERE id = ?1", nativeQuery = true)
 	public void removeById(Long itemId);
 	
 	@Query(value = "SELECT COUNT(1) FROM tb_item WHERE id = :itemId", nativeQuery = true)
@@ -36,7 +38,7 @@ public interface ItemRepository  extends JpaRepository<Item, Long>{
 	public Long verifyName(String itemName);
 	
 	@Query(value = "UPDATE tb_item SET name = :itemName, employee_id = :employeeId WHERE id = :itemId", nativeQuery = true)
-	public Item update(Long itemId, String itemName, Long employeeId);
+	public  Item update(Long itemId, String itemName, Long employeeId);
 	
 	@Query(value = "SELECT * FROM  tb_item WHERE employee_id = :employeeId", nativeQuery = true)
 	public Page<Item> searchByEmployee(Long employeeId, Pageable pageable);

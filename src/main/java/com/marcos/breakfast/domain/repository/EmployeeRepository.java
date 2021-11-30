@@ -23,7 +23,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
 	@Modifying
 	@Query(value = "INSERT INTO tb_employee (name, cpf) VALUES (?1, ?2)", nativeQuery = true)
-	public void create(String name, String cpf);
+	public Integer create(String name, String cpf);
 	
 //	public Employee create(@Param("name") String name, @Param("cpf") String cpf);
 
@@ -42,9 +42,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
 	@Modifying
 	@Query(value = "DELETE FROM tb_employee WHERE id = ?1", nativeQuery = true)
-	public void removeById(Long employeeId);
+	public Integer removeById(Long employeeId);
 	
 	@Modifying
 	@Query(value = "UPDATE tb_employee SET name = ?2, cpf = ?3 WHERE id = ?1", nativeQuery = true)
-	public Employee update(Long employeeId, String employeeName, String cpf);
+	public Integer update(Long employeeId, String employeeName, String cpf);
+	
+	@Query(value = "SELECT * FROM tb_employee WHERE id = (SELECT MAX(id) FROM tb_employee);", nativeQuery = true)
+	public Employee searchLastId();
 }

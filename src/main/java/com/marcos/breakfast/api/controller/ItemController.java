@@ -83,6 +83,7 @@ public class ItemController {
 		}
 		
 		item.setId(itemId);
+		System.out.println("ITEM A SER INSERIDO: " + item.toString());
 		return ResponseEntity.ok(itemService.save(item));
 	}
 	

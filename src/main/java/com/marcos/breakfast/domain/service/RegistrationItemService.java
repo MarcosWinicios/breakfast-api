@@ -63,13 +63,9 @@ public class RegistrationItemService {
 		return itemAssembler.toCollectionModel(list, pageable);
 	}
 	
-	
-	
 	@Transactional
 	public void remove(Long itemId) {
-//		itemRepository.removeById(itemId);
-		
-		itemRepository.deleteById(itemId);	
+		itemRepository.removeById(itemId);
 	}
 	
 //	@Transactional

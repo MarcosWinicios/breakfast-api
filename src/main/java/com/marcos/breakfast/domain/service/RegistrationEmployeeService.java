@@ -47,19 +47,25 @@ public class RegistrationEmployeeService {
 			if(!isEquals) {
 				throw new BusinessException("Já existe um colaborador cadastrado com este CPF");
 			}
-//			return employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
+			employeeRepository.update(employee.getId(), employee.getName(), employee.getCpf());
+			
+			
 			return employeeAssembler.toModel(
-					employeeRepository.save(employee)); //Método de update aqui
+					employeeRepository
+					.searchById(employee.getId())
+					.get());
 		}
+		
+		employeeRepository.create(employee.getName(), employee.getCpf());
+		
 		return employeeAssembler.toModel(
-				new Employee());
+				this.findLastEmployee());
 	}
 	
 	
 	@Transactional
 	public void remove(Long employeeId) {
-//		employeeRepository.removeById(employeeId);
-		employeeRepository.deleteById(employeeId);
+		employeeRepository.removeById(employeeId);
 	}
 	
 	@Transactional
@@ -95,8 +101,14 @@ public class RegistrationEmployeeService {
 				pageable);
 	}
 	
+	@Transactional
+	public Employee findLastEmployee() {
+		return employeeRepository.searchLastId();
+	}
+	
 	
 	/*
+	 * Outra forma de salvar/atualizar Colaboradores utilizando o JPA
 	@Transactional
 	public  Employee save(Employee employee) {
 		
