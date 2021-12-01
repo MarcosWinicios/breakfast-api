@@ -1,12 +1,12 @@
-package com.marcos.breakfast.api.model;
+package com.marcos.breakfast.api.dto;
 
 import java.util.List;
 
-public class EmployeeModel {
+public class EmployeeDTO {
 	private Long id;
 	private String name;
 	private String cpf;
-	private List<ItemResumeModel> items;
+	private List<ItemResumeDTO> items;
 	
 	public Long getId() {
 		return id;
@@ -26,10 +26,10 @@ public class EmployeeModel {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public List<ItemResumeModel> getItems() {
+	public List<ItemResumeDTO> getItems() {
 		return items;
 	}
-	public void setItems(List<ItemResumeModel> items) {
+	public void setItems(List<ItemResumeDTO> items) {
 		this.items = items;
 	}
 }

@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import com.marcos.breakfast.api.model.ItemModel;
-import com.marcos.breakfast.api.model.ItemResumeModel;
-import com.marcos.breakfast.api.model.input.ItemInput;
+import com.marcos.breakfast.api.dto.ItemDTO;
+import com.marcos.breakfast.api.dto.ItemResumeDTO;
+import com.marcos.breakfast.api.dto.input.ItemInput;
 import com.marcos.breakfast.domain.model.Item;
 
 @Component
@@ -17,11 +17,11 @@ public class ItemAssembler {
 	@Autowired
 	private ModelMapper mapper;
 	
-	public ItemModel toModel(Item item) {
-		return mapper.map(item, ItemModel.class);
+	public ItemDTO toModel(Item item) {
+		return mapper.map(item, ItemDTO.class);
 	}
 	
-	public Page<ItemModel> toCollectionModel(Page<Item> list, Pageable pageable){ 
+	public Page<ItemDTO> toCollectionModel(Page<Item> list, Pageable pageable){ 
 		return list.map(item -> this.toModel(item));		
 	}
 	
@@ -29,11 +29,11 @@ public class ItemAssembler {
 		return mapper.map(itemInput, Item.class);
 	}
 	
-	public ItemResumeModel toResumeModel(Item item) {
-		return mapper.map(item, ItemResumeModel.class);
+	public ItemResumeDTO toResumeModel(Item item) {
+		return mapper.map(item, ItemResumeDTO.class);
 	}
 	
-	public Page<ItemResumeModel> toResumeModelList(Page<Item> list, Pageable pageable) { 
+	public Page<ItemResumeDTO> toResumeModelList(Page<Item> list, Pageable pageable) { 
 		return list.map(item -> this.toResumeModel(item));
 	}
 }

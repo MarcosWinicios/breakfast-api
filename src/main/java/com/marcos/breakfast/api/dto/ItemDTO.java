@@ -1,10 +1,13 @@
-package com.marcos.breakfast.api.model;
+package com.marcos.breakfast.api.dto;
 
-public class ItemModel {
+import com.marcos.breakfast.api.dto.input.EmployeeIdInput;
+import com.marcos.breakfast.api.dto.input.EmployeeInput;
+
+public class ItemDTO {
 	
 	private Long id;
 	private String itemName;
-	private EmployeeModel employee;
+	private EmployeeIdInput employee;
 	
 	public Long getId() {
 		return id;
@@ -18,10 +21,10 @@ public class ItemModel {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public EmployeeModel getEmployee() {
+	public EmployeeIdInput getEmployee() {
 		return employee;
 	}
-	public void setEmployee(EmployeeModel employee) {
+	public void setEmployee(EmployeeIdInput employee) {
 		this.employee = employee;
 	}
 }

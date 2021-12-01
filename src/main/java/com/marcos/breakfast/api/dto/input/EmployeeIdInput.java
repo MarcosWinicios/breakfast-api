@@ -1,4 +1,4 @@
-package com.marcos.breakfast.api.model.input;
+package com.marcos.breakfast.api.dto.input;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

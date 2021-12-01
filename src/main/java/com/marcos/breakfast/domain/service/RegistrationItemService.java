@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.api.assembler.ItemAssembler;
-
-import com.marcos.breakfast.api.model.ItemModel;
+import com.marcos.breakfast.api.dto.ItemDTO;
 import com.marcos.breakfast.domain.exception.BusinessException;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
@@ -32,19 +31,19 @@ public class RegistrationItemService {
 	private Utils utils;
 	
 	@Transactional
-	public Page<ItemModel> findAll(Pageable pageable){
+	public Page<ItemDTO> findAll(Pageable pageable){
 		Page<Item> list = itemRepository.listAll(pageable);
 		return itemAssembler.toCollectionModel(list, pageable);
 	}
 	
 	@Transactional
-	public Optional<ItemModel> findById(Long itemId) {
+	public Optional<ItemDTO> findById(Long itemId) {
 		return itemRepository.searchById(itemId)
 				.map(item -> itemAssembler.toModel(item));
 	}
 	
 	@Transactional
-	public Page<ItemModel> findByNameContaining(String name, Pageable pageable){
+	public Page<ItemDTO> findByNameContaining(String name, Pageable pageable){
 		Page<Item> list = itemRepository.searchNameContaining(name, pageable);
 		return itemAssembler.toCollectionModel(list, pageable);
 	}
@@ -60,7 +59,7 @@ public class RegistrationItemService {
 	}
 	
 	@Transactional
-	public ItemModel save(Item item) {
+	public ItemDTO save(Item item) {
 		Employee employee = employeeService.checkIfTheIdExists(item.getEmployee().getId());
 		item.setEmployee(employee);
 		
@@ -78,7 +77,7 @@ public class RegistrationItemService {
 	}
 	
 	@Transactional
-	public ItemModel update (Item item) {
+	public ItemDTO update (Item item) {
 		Employee employee = employeeService.checkIfTheIdExists(item.getEmployee().getId());
 		
 		item.setEmployee(employee);

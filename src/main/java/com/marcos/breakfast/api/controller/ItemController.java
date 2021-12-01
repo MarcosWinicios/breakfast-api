@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.breakfast.api.assembler.ItemAssembler;
-import com.marcos.breakfast.api.model.ItemModel;
-import com.marcos.breakfast.api.model.input.ItemInput;
+import com.marcos.breakfast.api.dto.ItemDTO;
+import com.marcos.breakfast.api.dto.input.ItemInput;
 import com.marcos.breakfast.domain.model.Item;
 import com.marcos.breakfast.domain.repository.ItemRepository;
 import com.marcos.breakfast.domain.service.RegistrationItemService;
@@ -40,13 +40,13 @@ public class ItemController {
 	private ItemAssembler itemAssembler;
 	
 	@GetMapping
-	public ResponseEntity<Page<ItemModel>> findAll(Pageable pageable){
-		Page<ItemModel> list = itemService.findAll(pageable);		
+	public ResponseEntity<Page<ItemDTO>> findAll(Pageable pageable){
+		Page<ItemDTO> list = itemService.findAll(pageable);		
 		return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("/{itemId}")
-	public ResponseEntity<ItemModel> findById(@PathVariable Long itemId){		 
+	public ResponseEntity<ItemDTO> findById(@PathVariable Long itemId){		 
 		return itemService.findById(itemId)
 				.map(item -> ResponseEntity.ok(item))
 				.orElse(ResponseEntity.notFound().build());		
@@ -54,7 +54,7 @@ public class ItemController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<ItemModel> save(@Valid @RequestBody ItemInput item){
+	public ResponseEntity<ItemDTO> save(@Valid @RequestBody ItemInput item){
 		System.out.println("ITEM A SER INSERIDO : " + item.toString());
 		
 		Item newItem = itemAssembler.toEntity(item); 
@@ -62,8 +62,8 @@ public class ItemController {
 	}
 	
 	@GetMapping("/name/{name}")
-	public ResponseEntity<Page<ItemModel>> findByNameContaing(@PathVariable String name, Pageable pageable){
-		Page<ItemModel> result = itemService.findByNameContaining(name, pageable);
+	public ResponseEntity<Page<ItemDTO>> findByNameContaing(@PathVariable String name, Pageable pageable){
+		Page<ItemDTO> result = itemService.findByNameContaining(name, pageable);
 		return ResponseEntity.ok(result);
 	}
 	
@@ -77,7 +77,7 @@ public class ItemController {
 	}
 	
 	@PutMapping("/{itemId}")
-	public ResponseEntity<ItemModel> update(@Valid @PathVariable Long itemId, @RequestBody Item item){
+	public ResponseEntity<ItemDTO> update(@Valid @PathVariable Long itemId, @RequestBody Item item){
 		if(!(itemRepository.verifyId(itemId) > 0)) {
 			return ResponseEntity.notFound().build();
 		}
@@ -89,7 +89,7 @@ public class ItemController {
 	
 	
 //	@PutMapping("/{itemId}")
-//	public ResponseEntity<ItemModel> update(@Valid @PathVariable Long itemId, @RequestBody ItemModel itemModel){
+//	public ResponseEntity<ItemDTO> update(@Valid @PathVariable Long itemId, @RequestBody ItemDTO itemModel){
 //		if(!(itemRepository.verifyId(itemId) > 0)) {
 //			return ResponseEntity.notFound().build();
 //		}

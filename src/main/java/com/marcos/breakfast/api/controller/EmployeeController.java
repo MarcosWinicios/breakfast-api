@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcos.breakfast.api.model.EmployeeModel;
-import com.marcos.breakfast.api.model.ItemResumeModel;
+import com.marcos.breakfast.api.dto.EmployeeDTO;
+import com.marcos.breakfast.api.dto.ItemResumeDTO;
 import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.repository.EmployeeRepository;
 import com.marcos.breakfast.domain.service.RegistrationEmployeeService;
@@ -36,13 +36,13 @@ public class EmployeeController {
 	private RegistrationEmployeeService employeeService;
 	
 	@GetMapping
-	public ResponseEntity<Page<EmployeeModel>> findAll(Pageable page) {
-		Page<EmployeeModel> list = employeeService.findAll(page);
+	public ResponseEntity<Page<EmployeeDTO>> findAll(Pageable page) {
+		Page<EmployeeDTO> list = employeeService.findAll(page);
 		return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("/{employeeId}")
-	public ResponseEntity<EmployeeModel> findById(@PathVariable Long employeeId) {
+	public ResponseEntity<EmployeeDTO> findById(@PathVariable Long employeeId) {
 		return employeeService.findById(employeeId)
 				.map(employee -> ResponseEntity.ok(employee))
 				.orElse(ResponseEntity.notFound().build());
@@ -56,12 +56,12 @@ public class EmployeeController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public EmployeeModel save(@Valid @RequestBody Employee employee) {
+	public EmployeeDTO save(@Valid @RequestBody Employee employee) {
 		return employeeService.save(employee);
 	}
 	
 	@PutMapping("/{employeeId}")
-	public ResponseEntity<EmployeeModel> update(@Valid @PathVariable Long employeeId, @RequestBody Employee employee ) {
+	public ResponseEntity<EmployeeDTO> update(@Valid @PathVariable Long employeeId, @RequestBody Employee employee ) {
 		if(!(employeeRepository.verifyId(employeeId) > 0)) {
 			return ResponseEntity.notFound().build();
 		}
@@ -79,20 +79,20 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/cpf/{cpf}")
-	public ResponseEntity<EmployeeModel> findByCpf(@PathVariable String cpf){
+	public ResponseEntity<EmployeeDTO> findByCpf(@PathVariable String cpf){
 		return employeeService.findByCpf(cpf)
 				.map(employee -> ResponseEntity.ok(employee))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@GetMapping("/name/{name}")
-	public ResponseEntity<Page<EmployeeModel>> findByNameContaing(@PathVariable String name, Pageable pageable){
+	public ResponseEntity<Page<EmployeeDTO>> findByNameContaing(@PathVariable String name, Pageable pageable){
 		return ResponseEntity.ok(
 				employeeService.findByNameContaing(name, pageable));
 	}
 	
 	@GetMapping("/{employeeId}/items")
-	public ResponseEntity<Page<ItemResumeModel>> findAllItems(@PathVariable Long employeeId, Pageable pageable){
+	public ResponseEntity<Page<ItemResumeDTO>> findAllItems(@PathVariable Long employeeId, Pageable pageable){
 		if(!(employeeRepository.verifyId(employeeId) > 0)) {
 			return ResponseEntity.notFound().build();
 		}

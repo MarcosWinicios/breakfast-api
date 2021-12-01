@@ -1,6 +1,6 @@
-package com.marcos.breakfast.api.model;
+package com.marcos.breakfast.api.dto;
 
-public class ItemResumeModel {
+public class ItemResumeDTO {
 	
 	private Long id;
 	private String name;
