@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.marcos.breakfast.domain.model.Employee;
 import com.marcos.breakfast.domain.model.Item;
 
 public interface ItemRepository  extends JpaRepository<Item, Long>{
@@ -19,7 +18,7 @@ public interface ItemRepository  extends JpaRepository<Item, Long>{
 	@Query(value = "SELECT * FROM tb_item WHERE id = :itemId", nativeQuery = true)
 	public Optional<Item> searchById(Long itemId);
 	
-	@Query(value = "SELECT * FROM tb_item WHERE name = :itemName", nativeQuery = true)
+	@Query(value = "SELECT * FROM tb_item WHERE name ~* :itemName", nativeQuery = true)
 	public Optional<Item> searchByName(String itemName);
 	
 	@Query(value = "SELECT * FROM tb_item WHERE name LIKE %:itemName%", nativeQuery = true)

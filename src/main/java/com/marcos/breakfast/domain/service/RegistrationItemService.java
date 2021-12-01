@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.marcos.breakfast.api.assembler.ItemAssembler;
-import com.marcos.breakfast.api.model.EmployeeModel;
+
 import com.marcos.breakfast.api.model.ItemModel;
 import com.marcos.breakfast.domain.exception.BusinessException;
 import com.marcos.breakfast.domain.model.Employee;
@@ -28,6 +28,9 @@ public class RegistrationItemService {
 	@Autowired
 	private ItemAssembler itemAssembler;
 	
+	@Autowired
+	private Utils utils;
+	
 	@Transactional
 	public Page<ItemModel> findAll(Pageable pageable){
 		Page<Item> list = itemRepository.listAll(pageable);
@@ -39,34 +42,6 @@ public class RegistrationItemService {
 		return itemRepository.searchById(itemId)
 				.map(item -> itemAssembler.toModel(item));
 	}
-	
-	
-//	public ItemModel saves(Item item) {
-//		
-//		
-//		Optional<Item> result = itemRepository.searchByName(item.getName());
-////		System.out.println(result.get());
-//		if(result.isPresent()) {
-//			System.out.println("Achou o nome no banco");
-//			if(!(result.get().equals(item))) {
-//				throw new BusinessException("Este item já está cadastrado");
-//			}
-//			itemRepository.update(item.getId(), item.getName(), item.getEmployee().getId());
-//			
-//			System.out.println("Passou pela exception");
-//			return itemAssembler.toModel(
-//					itemRepository
-//					.searchById(item.getId())
-//					.get());
-//		
-//		}
-//		System.out.println("Passou pelo update");
-//		itemRepository.create(item.getName(), item.getEmployee().getId());
-//		System.out.println("FOI NO MÉTODO SALVAR");
-//		
-//		return  itemAssembler.toModel(
-//				this.findLastItem());
-//	}
 	
 	@Transactional
 	public Page<ItemModel> findByNameContaining(String name, Pageable pageable){
@@ -88,7 +63,11 @@ public class RegistrationItemService {
 	public ItemModel save(Item item) {
 		Employee employee = employeeService.checkIfTheIdExists(item.getEmployee().getId());
 		item.setEmployee(employee);
-
+		
+		/*Removendo espaços duplicados do nome*/
+		var  text= utils.spaceRemoving(item.getName());
+		item.setName(text);	
+		
 		Optional<Item> result = itemRepository.searchByName(item.getName());
 		if(result.isPresent()) {
 			throw new BusinessException("Este Item já está cadastrado");
@@ -104,7 +83,11 @@ public class RegistrationItemService {
 		
 		item.setEmployee(employee);
 		
-		Optional<Item> result = itemRepository.searchByName(item.getName());
+		/*Removendo espaços duplicados do nome*/
+		var  text= utils.spaceRemoving(item.getName());
+		item.setName(text);	
+		
+		Optional<Item> result = itemRepository.searchByName(item.getName().replaceAll("\\s+", " "));
 		if((result.isPresent())) {
 			boolean isEquals = result.get().equals(item);
 			if(!isEquals) {

@@ -33,6 +33,9 @@ public class RegistrationEmployeeService {
 	@Autowired
 	private ItemRepository itemRepository;
 	
+	@Autowired
+	private Utils utils;
+	
 	public Employee checkIfTheIdExists(Long id) {
 		return employeeRepository.searchById(id)
 				.orElseThrow(() -> new BusinessException("Você está tentando atribuir um Item a um colaborador inexistente"));
@@ -84,6 +87,7 @@ public class RegistrationEmployeeService {
 	
 	@Transactional
 	public EmployeeModel update (Employee employee) {
+		employee = this.removingSpaceText(employee);
 		
 		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
 		if((result.isPresent())) {
@@ -107,12 +111,27 @@ public class RegistrationEmployeeService {
 	
 	@Transactional
 	public EmployeeModel save(Employee employee) {
+		employee = this.removingSpaceText(employee);
+		
 		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
 		if(result.isPresent()) {
 			throw new BusinessException("Já existe um colaborador cadastrado com esse cpf");
 		}
 		employeeRepository.create(employee.getName(), employee.getCpf());
 		return employeeAssembler.toModel(employeeRepository.searchLastId());
+	}
+	
+	private Employee removingSpaceText(Employee employee) {
+		employee.setName(utils.spaceRemoving(employee.getName()));
+		employee.setCpf(utils.spaceRemoving(employee.getCpf()));
+		this.cpfValidation(employee.getCpf());
+		return employee;
+	}
+	
+	private void cpfValidation(String cpf) {
+		if(!(cpf.length() == 11)) {
+			throw new BusinessException("O cpf deve ter 11 dígitos sem espaços");
+		}
 	}
 	
 	/*
