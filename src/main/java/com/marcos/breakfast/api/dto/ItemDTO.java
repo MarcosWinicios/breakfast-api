@@ -1,7 +1,6 @@
 package com.marcos.breakfast.api.dto;
 
 import com.marcos.breakfast.api.dto.input.EmployeeIdInput;
-import com.marcos.breakfast.api.dto.input.EmployeeInput;
 
 public class ItemDTO {
 	

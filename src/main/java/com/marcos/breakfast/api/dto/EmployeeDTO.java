@@ -1,6 +1,9 @@
 package com.marcos.breakfast.api.dto;
 
+import java.text.ParseException;
 import java.util.List;
+
+import com.marcos.breakfast.domain.service.Utils;
 
 public class EmployeeDTO {
 	private Long id;
@@ -20,7 +23,8 @@ public class EmployeeDTO {
 	public void setNameEmployee(String nameEmployee) {
 		this.name = nameEmployee;
 	}
-	public String getCpf() {
+	public String getCpf() throws ParseException {
+		this.cpf = Utils.cpfMask(cpf);
 		return cpf;
 	}
 	public void setCpf(String cpf) {
@@ -32,4 +36,5 @@ public class EmployeeDTO {
 	public void setItems(List<ItemResumeDTO> items) {
 		this.items = items;
 	}
+	
 }

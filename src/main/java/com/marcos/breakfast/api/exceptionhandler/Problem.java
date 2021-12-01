@@ -1,6 +1,5 @@
 package com.marcos.breakfast.api.exceptionhandler;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.marcos.breakfast.api.exceptionhandler;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
-		List<Field> fields = new ArrayList();
+		List<Field> fields = new ArrayList<Field>();
 		
 		for(ObjectError error : ex.getBindingResult().getAllErrors()) {
 			String name = ((FieldError) error).getField();

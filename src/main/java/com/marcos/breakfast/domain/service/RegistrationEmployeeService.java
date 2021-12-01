@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.marcos.breakfast.api.assembler.EmployeeAssembler;
 import com.marcos.breakfast.api.assembler.ItemAssembler;
 import com.marcos.breakfast.api.dto.EmployeeDTO;
-import com.marcos.breakfast.api.dto.ItemDTO;
 import com.marcos.breakfast.api.dto.ItemResumeDTO;
 import com.marcos.breakfast.domain.exception.BusinessException;
 import com.marcos.breakfast.domain.model.Employee;
@@ -112,9 +111,7 @@ public class RegistrationEmployeeService {
 	@Transactional
 	public EmployeeDTO save(Employee employee) {
 		employee = this.removingSpaceText(employee);
-		
-		System.out.println("\nVALOR DO CPF ANTES DE SALVAR: " + employee.toString());
-		
+
 		Optional<Employee> result = employeeRepository.searchByCpf(employee.getCpf());
 		if(result.isPresent()) {
 			throw new BusinessException("Já existe um colaborador cadastrado com esse cpf");
@@ -125,20 +122,13 @@ public class RegistrationEmployeeService {
 	
 	private Employee removingSpaceText(Employee employee) {
 		employee.setName(utils.spaceRemoving(employee.getName()));
-		System.out.println("\n\n------------------\nCPF: |"+ employee.getName() +"|\n\n------------------");
-
-		System.out.println("\n\n------------------\nCPF: |"+ utils.spaceRemoving(employee.getCpf())+"|\n\n------------------");
 		employee.setCpf(this.cpfValidation(employee.getCpf()));
-		System.out.println("\n\nCPF DEPOIS DE REMOVER ESPAÇOS:" + employee.toString() + "\n\n");
 		this.cpfValidation(employee.getCpf());
-		
 		return employee;
 	}
 	
 	private String cpfValidation(String cpf) {
-		cpf = cpf.trim().replaceAll("\\s+", "");
-		
-		System.out.println("\n\n------------------\nCPF: |"+ cpf +"|\n\n------------------");
+		cpf = cpf.replaceAll("\\D", ""); // Remove caracteres não núméricos
 		
 		if(!(cpf.length() == 11)) {
 			throw new BusinessException("O cpf deve ter 11 dígitos sem espaços");
